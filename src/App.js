@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Suspense } from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  NavLink
+} from "react-router-dom";
 
-function App() {
+import Loader from "./components/Loader";
+
+import "./App.css";
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <Router>
+      <header className="text-center p-2 fixed w-full bg-white z-10 top-0">
+        <NavLink to="/" className="inline-block">
+          <h1>Poke App</h1>
+        </NavLink>
       </header>
-    </div>
+
+      <main>
+        <Suspense fallback={<Loader />}>
+          <Switch>
+            <Route path="/:name" render={() => <p>Detail</p>} />
+            <Route path="/" render={() => <p>List</p>} />
+          </Switch>
+        </Suspense>
+      </main>
+    </Router>
   );
-}
+};
 
 export default App;
