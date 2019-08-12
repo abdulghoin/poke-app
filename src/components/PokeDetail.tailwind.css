@@ -1,9 +1,10 @@
 .detail {
-  @apply p-2;
+  @apply px-2 pt-40 pb-2 relative;
 }
 
-.detail > img {
-  @apply block rounded-full mx-auto my-3 border-2 border-blue-400;
+.img {
+  @apply rounded-full border-4 border-blue-400 absolute w-32 h-32 my-4 bg-contain bg-center inset-x-0 top-0 mx-auto;
+  will-change: opacity;
 }
 
 .detail .title {

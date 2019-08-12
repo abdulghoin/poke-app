@@ -1,16 +1,28 @@
 .detail {
-  padding: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 10rem;
+  padding-bottom: 0.5rem;
+  position: relative;
 }
 
-.detail > img {
-  display: block;
+.img {
   border-radius: 9999px;
+  border-width: 4px;
+  border-color: #63b3ed;
+  position: absolute;
+  width: 8rem;
+  height: 8rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  background-size: contain;
+  background-position: center;
+  right: 0;
+  left: 0;
+  top: 0;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 0.75rem;
-  margin-bottom: 0.75rem;
-  border-width: 2px;
-  border-color: #63b3ed;
+  will-change: opacity;
 }
 
 .detail .title {

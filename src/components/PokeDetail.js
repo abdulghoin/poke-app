@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { useTransition, animated, config } from "react-spring";
 
 import Loader from "./Loader";
 
 import "./PokeDetail.css";
+
+const changeSprites = sprites =>
+  Object.values(sprites)
+    .filter(i => i !== null)
+    .map(i => i);
 
 const PokeDetail = ({
   match: {
@@ -10,6 +16,9 @@ const PokeDetail = ({
   }
 }) => {
   const [data, setData] = useState(null);
+  const [sprites, setSprites] = useState([]);
+  const [spritesLength, setSL] = useState(4);
+  const [index, set] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -18,6 +27,10 @@ const PokeDetail = ({
       let uri = `https://pokeapi.co/api/v2/pokemon/${name}`;
       const response = await fetch(uri);
       const result = await response.json();
+
+      let sprites = changeSprites(result.sprites);
+      setSprites(sprites);
+      setSL(sprites.length);
       setData(result);
       setIsLoading(false);
     };
@@ -25,15 +38,43 @@ const PokeDetail = ({
     fetchData();
   }, [name]);
 
+  useEffect(() => {
+    let imgInterval = setInterval(
+      () => set(state => (state + 1) % spritesLength),
+      5000
+    );
+
+    return () => clearInterval(imgInterval);
+  }, [spritesLength]);
+
+  const transitions = useTransition(
+    sprites.length > 0 ? sprites[index] : "",
+    item => item,
+    {
+      from: { opacity: 0 },
+      enter: { opacity: 1 },
+      leave: { opacity: 0 },
+      config: config.molasses
+    }
+  );
   if (isLoading) return <Loader />;
 
-  console.log(data);
-  const { sprites, types, moves } = data;
-  const src = sprites.front_default;
+  let { types, moves } = data;
 
+  // const src = sprites[0].src;
   return (
     <section className="detail">
-      <img src={src} alt={name} />
+      {transitions.map(({ item, props, key }) => (
+        <animated.div
+          key={key}
+          className="img"
+          style={{
+            ...props,
+            backgroundImage: `url(${item})`
+          }}
+        />
+      ))}
+      {/* <img src={src} alt={name} /> */}
       <div>
         <b className="title">Name</b>
         <span>{name}</span>
