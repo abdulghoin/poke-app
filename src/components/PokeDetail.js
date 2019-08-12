@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useTransition, animated, config } from "react-spring";
 import { Link } from "react-router-dom";
 
-import { Dialog, DialogContent } from "@material-ui/core";
+import { Dialog } from "@material-ui/core";
 
 import Loader from "./Loader";
 
