@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import { List, ListItem } from "@material-ui/core";
 import Loader from "./Loader";
 
 const PokeList = () => {
@@ -29,18 +28,15 @@ const PokeList = () => {
   return (
     <>
       {data.length > 0 && (
-        <List>
+        <ul>
           {data.map(({ name }) => (
-            <ListItem key={name}>
-              <Link
-                to={`/${name}`}
-                className="no-underline block py-2 px-1 w-full"
-              >
+            <li key={name}>
+              <Link to={`/${name}`} className="no-underline block p-2 w-full">
                 {name}
               </Link>
-            </ListItem>
+            </li>
           ))}
-        </List>
+        </ul>
       )}
 
       {isLoading ? (
@@ -50,7 +46,7 @@ const PokeList = () => {
           <div className="text-center py-3">
             <button
               onClick={() => setNL(onNextLoad + 1)}
-              className="bg-blue-600 hover:bg-blue-400 text-white font-bold px-8 py-2 rounded cursor-pointer"
+              className="bg-blue-600 hover:bg-blue-400 text-white px-6 py-1 rounded cursor-pointer"
             >
               next
             </button>

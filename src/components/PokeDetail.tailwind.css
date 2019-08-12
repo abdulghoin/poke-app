@@ -1,0 +1,21 @@
+.detail {
+  @apply p-2;
+}
+
+.detail > img {
+  @apply block rounded-full mx-auto my-3 border-2 border-blue-400;
+}
+
+.detail .title {
+  @apply w-1/3 mr-2;
+}
+
+.detail .rounded-section {
+  @apply rounded border-2 border-gray-500 my-4 p-4 relative;
+}
+
+.detail .rounded-section > .title {
+  @apply px-2 absolute bg-white top-0 w-auto m-0;
+  left: 5%;
+  transform: translateY(-50%);
+}

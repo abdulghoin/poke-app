@@ -11,6 +11,7 @@ import Loader from "./components/Loader";
 import "./App.css";
 
 const List = lazy(() => import("./components/PokeList"));
+const Detail = lazy(() => import("./components/PokeDetail"));
 
 const App = () => {
   return (
@@ -24,7 +25,7 @@ const App = () => {
       <main>
         <Suspense fallback={<Loader />}>
           <Switch>
-            <Route path="/:name" render={() => <p>Detail</p>} />
+            <Route path="/:name" component={Detail} />
             <Route path="/" component={List} />
           </Switch>
         </Suspense>
