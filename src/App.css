@@ -20,3 +20,7 @@ main::-webkit-scrollbar-thumb {
   background-color: #90cdf4;
   border-radius: 5px;
 }
+
+.my-poke {
+  right: 1rem;
+}
