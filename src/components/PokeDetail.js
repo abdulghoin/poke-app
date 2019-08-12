@@ -88,7 +88,7 @@ const PokeDetail = ({
     setCatch("");
     setTimeout(() => {
       setCatch(getCathingResult());
-    }, 2000);
+    }, 5000);
   }
 
   function closeDialog() {
