@@ -25,6 +25,7 @@ const App = () => {
       <main>
         <Suspense fallback={<Loader />}>
           <Switch>
+            <Route path="/my-pokemon" component={List} />
             <Route path="/:name" component={Detail} />
             <Route path="/" component={List} />
           </Switch>
