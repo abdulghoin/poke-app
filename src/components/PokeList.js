@@ -8,6 +8,8 @@ import { getMyPokemon } from "../actions/myPokemon";
 
 import Loader from "./Loader";
 
+import "./PokeList.css";
+
 const PokeList = ({
   location: { pathname },
   allPokemon: { data, loading },
@@ -17,26 +19,40 @@ const PokeList = ({
 }) => {
   const { results, next, count: total } = data || {};
   const [onNextLoad, setNL] = useState(0);
+  let listPage = !pathname.includes("my-pokemon");
 
   useEffect(() => {
-    if (pathname.includes("my-pokemon")) {
+    if (listPage) {
       getMyPokemon();
-    } else {
       getAllPokemon(onNextLoad, next);
+    } else {
+      getMyPokemon();
     }
   }, [pathname, onNextLoad]);
 
-  let list = pathname.includes("my-pokemon") ? myPokemon : results;
+  let list = listPage ? results : myPokemon;
   list = list || [];
+  myPokemon = myPokemon.map(({ name }) => name);
 
   return (
     <>
+      <h5 className="text-center py-3 mx-4 font-bold border-b-2 border-gray-500">
+        {listPage ? "All Pokemon" : "Your Pokemon"}
+      </h5>
       {list.length > 0 ? (
-        <ul>
+        <ul className="px-4">
           {list.map(({ name }) => (
             <li key={name}>
-              <Link to={`/${name}`} className="no-underline block p-2 w-full">
+              <Link
+                to={`/${name}`}
+                className="no-underline block p-2 w-full relative"
+              >
                 {name}
+                {listPage && myPokemon.includes(name) && (
+                  <span className="your-poke text-xs p-1 bg-blue-400 absolute rounded">
+                    yours
+                  </span>
+                )}
               </Link>
             </li>
           ))}
@@ -45,7 +61,7 @@ const PokeList = ({
         <p className="text-center text-sm my-4">No Pokemon</p>
       )}
 
-      {!pathname.includes("my-pokemon") &&
+      {listPage &&
         (loading ? (
           <Loader dataTestId="loading" />
         ) : (
