@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useTransition, animated, config } from "react-spring";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+
+import { addMyPokemon, removeMyPokemon } from "../actions/myPokemon";
 
 import { Dialog } from "@material-ui/core";
 
@@ -17,7 +20,10 @@ const changeSprites = sprites =>
 const PokeDetail = ({
   match: {
     params: { name }
-  }
+  },
+  myPokemon,
+  addMyPokemon,
+  removeMyPokemon
 }) => {
   const [data, setData] = useState(null);
   const [sprites, setSprites] = useState([]);
@@ -69,7 +75,12 @@ const PokeDetail = ({
 
   function getCathingResult() {
     let res = Math.floor(Math.random() * 2);
-    return res === 1 ? "success" : "failed";
+    let resText = "failed";
+    if (res === 1) {
+      resText = "success";
+      addMyPokemon({ name });
+    }
+    return resText;
   }
 
   function catching() {
@@ -87,6 +98,11 @@ const PokeDetail = ({
     }, 500);
   }
 
+  function removePokemon() {
+    removeMyPokemon(name);
+  }
+
+  const isMyPokemon = myPokemon.map(({ name }) => name).includes(name);
   // const src = sprites[0].src;
   return (
     <>
@@ -103,7 +119,11 @@ const PokeDetail = ({
         ))}
 
         <div className="catch">
-          <button onClick={catching}>Catch</button>
+          {isMyPokemon ? (
+            <button onClick={removePokemon}>Remove My Pokemon</button>
+          ) : (
+            <button onClick={catching}>Catch</button>
+          )}
         </div>
         {/* <img src={src} alt={name} /> */}
         <div>
@@ -199,4 +219,16 @@ const PokeDetail = ({
   );
 };
 
-export default PokeDetail;
+const mapStoreToProps = ({ myPokemon }) => ({
+  myPokemon
+});
+
+const mapDispatchToProps = {
+  addMyPokemon,
+  removeMyPokemon
+};
+
+export default connect(
+  mapStoreToProps,
+  mapDispatchToProps
+)(PokeDetail);
