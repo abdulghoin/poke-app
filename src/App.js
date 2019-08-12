@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense, lazy } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -9,6 +9,8 @@ import {
 import Loader from "./components/Loader";
 
 import "./App.css";
+
+const List = lazy(() => import("./components/PokeList"));
 
 const App = () => {
   return (
@@ -23,7 +25,7 @@ const App = () => {
         <Suspense fallback={<Loader />}>
           <Switch>
             <Route path="/:name" render={() => <p>Detail</p>} />
-            <Route path="/" render={() => <p>List</p>} />
+            <Route path="/" component={List} />
           </Switch>
         </Suspense>
       </main>
